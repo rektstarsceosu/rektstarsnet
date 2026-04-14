@@ -21,7 +21,7 @@ async fn main() {
     axum::serve(listener, app).await.unwrap();
 }
 
-async fn handler_404() -> (axum::http::StatusCode, Html<String>) {
+async fn handler_404() -> (StatusCode, Html<String>) {
     let html = std::fs::read_to_string("templates/404.html")
     .unwrap_or_else(|_| "<h1>404 Not Found</h1>".to_string());
     (axum::http::StatusCode::NOT_FOUND, Html(html))  // ← This is 404
