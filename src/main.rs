@@ -5,6 +5,8 @@ use axum::{
     Router,
 };
 use tower_http::services::{ServeDir};
+use std::fs;
+use regex::Regex;
 
 #[tokio::main]
 async fn main() {
@@ -24,23 +26,20 @@ async fn main() {
 async fn handler_404() -> (StatusCode, Html<String>) {
     let html = std::fs::read_to_string("templates/404.html")
     .unwrap_or_else(|_| "<h1>404 Not Found</h1>".to_string());
-    (axum::http::StatusCode::NOT_FOUND, Html(html))  // ← This is 404
+    return (axum::http::StatusCode::NOT_FOUND, Html(html));  // 404
 }
 
 async fn handler() -> Html<String> {
-    let mut html = String::from(r#"<!DOCTYPE html>
-    <html><head><style>
-    p { opacity: 0; animation: reveal 0s ease-in forwards; }
-    p:nth-child(1) { animation-delay: 0s; }
-    p:nth-child(2) { animation-delay: 0.3s; }
-    p:nth-child(3) { animation-delay: 0.6s; }
-    @keyframes reveal { to { opacity: 1; } }
-    </style></head><body>"#);
+    let mut html = fs::read_to_string("templates/example.html").unwrap();
+    let re = Regex::new(r#"<div class="line">\[\s*([0-9.]+)\s*\]"#).unwrap();
+    html = re.replace_all(&html, // FIND ALL THE MATCH INJECT DELAY (and itself because replace_all destroys the match?)
+        |caps: &regex::Captures| {
+            let delay_str = &caps[1];
+            let delay: f32 = delay_str.parse().unwrap_or(0.0);
+            return format!(r#"<div class="line" style="--delay: {}s;"><span class="timestamp">[{:>12.6}]</span>"#,
+            delay, delay);
+        }
+    ).to_string();
 
-    for i in 1..=3 {
-        html.push_str(&format!("<p>line {}</p>", i));
-    }
-
-    html.push_str("</body></html>");
-    Html(html)
+    return Html(html);
 }

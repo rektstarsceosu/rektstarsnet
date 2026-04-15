@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staggered Animation</title>
+<style>
+body {
+    font-family: monospace;
+    background: #0d1117;
+    color: #c9d1d9;
+    font-weight: bold;
+    padding: 40px;
+    margin: 0;
+}
+
+.lines {
+    max-width: 600px;
+}
+.timestamp {
+    color: #11d116;
+}
+
+.line {
+    white-space: pre;
+    opacity: 0;
+    animation: faze 0s forwards;
+    animation-delay: var(--delay, 0s);
+}
+
+@keyframes faze {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+</style>
+</head>
+<body>
+
+<h1>Staggered Lines</h1>
+
+<div class="lines">
+    <div class="line">[ 0.00] First line appears</div>
+    <div class="line">[ 1.00] Second line follows</div>
+    <div class="line">[ 2.00] Third line comes next</div>
+    <div class="line">[ 5.00] Fourth line joins in</div>
+    <div class="line">[ 4.00] Fifth line slides in</div>
+    <div class="line">[ 2.00] Sixth line continues</div>
+    <div class="line">[ 6.00] Seventh line staggered</div>
+    <div class="line">[ 7.00] Eighth line animated</div>
+    <div class="line">[ 8.00] Ninth line cascading</div>
+    <div class="line">[ 9.213123123123] Tenth line final</div>
+</div>
+
+</body>
+</html>
