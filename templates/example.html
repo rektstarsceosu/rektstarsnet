@@ -38,18 +38,32 @@ a {
     max-width: 600px;
 }
 .line {
+    display: table;
+    vertical-align: bottom;
+    font-family: monospace;
+    clip-path: inset(0 100% 0 0);
     white-space: pre;
     opacity: 0;
-    animation: faze 0s forwards;
-    animation-delay: var(--delay, 0s);
+    animation:
+        typing 0.1s linear var(--delay) forwards,
+        newline 0s var(--delay) forwards;
 }
 
-@keyframes faze {
+@keyframes newline {
     from {
         opacity: 0;
     }
     to {
         opacity: 1;
+    }
+}
+
+@keyframes typing {
+    from {
+        clip-path: inset(0 100% 0 0);
+    }
+    to {
+        clip-path: inset(0 0% 0 0);
     }
 }
 </style>

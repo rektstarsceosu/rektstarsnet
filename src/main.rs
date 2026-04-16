@@ -5,15 +5,16 @@ use axum::{
     Router,
 };
 use tower_http::services::{ServeDir};
-use std::fs;
+use tokio::fs;
 use regex::Regex;
 use std::sync::Mutex;
 use rand::RngExt;
 
-const DELAY_MAX: f32 = 0.1;
-
+const DELAY_MAX: f32 = 0.3;
+const CACHE: String = "templates/cache.html";
 #[tokio::main]
 async fn main() {
+    let _ = std::fs::remove_file(CACHE);
     let static_dir = ServeDir::new("static");
 
     let app = Router::new()
@@ -34,17 +35,26 @@ async fn handler_404() -> (StatusCode, Html<String>) {
 }
 
 async fn handler() -> Html<String> {
-    jitter(-1.0);
-    let mut html = fs::read_to_string("templates/example.html").unwrap();
+    // already cached -> skip
+    if let Ok(cached_content) = fs::read_to_string(CACHE).await {
+        return Html(cached_content);
+    }
+
+    // generate the html
+    let _ = jitter(-1.0); // reset jitter
+    let mut html = fs::read_to_string("templates/example.html").await.unwrap();
     let re = Regex::new(r#"<div class="line">\[\s*([0-9.]+)\s*\]"#).unwrap();
     html = re.replace_all(&html, // FIND ALL THE MATCH INJECT DELAY (and itself because replace_all destroys the match?)
         |caps: &regex::Captures| {
             let delay_str = &caps[1];
             let delay: f32 = delay_str.parse().unwrap_or(0.0);
+            let j = jitter(delay);
             return format!(r#"<div class="line" style="--delay: {}s;"><span class="timestamp">[{:>12.6}]</span>"#,
-            jitter(delay), delay);
+            j, if delay == 0.0 {delay} else {j});
         }
     ).to_string();
+    let _ = fs::write(cache_path, &(html)).await;
+
     return Html(html);
 }
 
@@ -58,9 +68,9 @@ fn jitter(delay: f32) -> f32 {
     }
     let mut rng = rand::rng();
     if *last > delay {
-        *last += rng.random_range(0.0..DELAY_MAX);
+        *last += rng.random_range(0.1..DELAY_MAX);
     } else {
-        *last = delay + rng.random_range(0.0..DELAY_MAX);
+        *last = delay + rng.random_range(0.1..DELAY_MAX);
     }
     return *last;
 }
