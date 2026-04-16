@@ -1,86 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Staggered Animation</title>
-<style>
-body {
-    font-family: monospace;
-    background: #232627;
-    color: #fcfcfc;
-    font-family: "Lucida Console", monospace, bold;
-    font-weight: bold;
-    padding: 40px;
-    margin: 0;
-}
-
-a {
-    text-decoration: none;
-    color: #3daee9;
-}
-.timestamp {
-    color: #11d116;
-}
-
-.text {
-    color: #fcfcfc;
-}
-.error {
-    color: #ed1515;
-}
-
-.subsystem {
-    color: #f67400;
-}
-.userspace { color: yellow; }
-.lines {
-    max-width: 600px;
-}
-.line {
-    display: table;
-    vertical-align: bottom;
-    font-family: monospace;
-    clip-path: inset(0 100% 0 0);
-    white-space: pre;
-    opacity: 0;
-    animation:
-        typing 0.1s linear var(--delay) forwards,
-        newline 0s var(--delay) forwards;
-}
-
-@keyframes newline {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes typing {
-    from {
-        clip-path: inset(0 100% 0 0);
-    }
-    to {
-        clip-path: inset(0 0% 0 0);
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>dmesg</title>
 </head>
-<body>
-
-<div class="lines">
-    <div class="line" style="--delay: 0.22051233s;"><span class="timestamp">[    0.000000]</span> Linux version 7.0.0-1-cachyos (linux-cachyos@cachyos) (clang version 22.1.3, LLD 22.1.3) #1 SMP PREEMPT Wed, 15 Apr 2026 10:02:03 +0000</div>
-    <div class="line" style="--delay: 0.4743658s;"><span class="timestamp">[    0.000000]</span> <span class="subsystem">Command line:</span> BOOT_IMAGE=/vmlinuz-linux root=/dev/mapper/rektstars rw</div>
-    <div class="line" style="--delay: 0.6898529s;"><span class="timestamp">[    0.000000]</span> Fourth line joins in</div>
-    <div class="line" style="--delay: 1.2884971s;"><span class="timestamp">[    1.288497]</span> Fifth line slides in</div>
-    <div class="line" style="--delay: 2.296424s;"><span class="timestamp">[    2.296424]</span> Sixth line continues</div>
-    <div class="line" style="--delay: 3.1826372s;"><span class="timestamp">[    3.182637]</span> Seventh line staggered</div>
-    <div class="line" style="--delay: 5.1969647s;"><span class="timestamp">[    5.196965]</span> Eighth line animated</div>
-    <div class="line" style="--delay: 8.168507s;"><span class="timestamp">[    8.168507]</span> Ninth line cascading</div>
-    <div class="line" style="--delay: 9.4911785s;"><span class="timestamp">[    9.491179]</span> Tenth line final</div>
-</div>
+</body>
+    <div class="lines">
+    <div class="line" style="--delay:0.13181451s;"><span class="timestamp">[    0.000000] </span><span class="subsystem"></span><span class="text">Linux version 7.0.0-1-cachyos (linux-cachyos@cachyos) (clang version 22.1.3, LLD 22.1.3) #1 SMP PREEMPT Wed, 15 Apr 2026 10:02:03 +0000</span><a href=></a></div><div class="line" style="--delay:0.27608848s;"><span class="timestamp">[    0.000000] </span><span class="subsystem">Command line: </span><span class="text">BOOT_IMAGE=/vmlinuz-linux root=/dev/mapper/rektstars rw</span><a href=></a></div><div class="line" style="--delay:0.4198213s;"><span class="timestamp">[    0.000000] </span><span class="subsystem">DMI: </span><span class="text">HP Victus by HP Gaming Laptop/8BD4, BIOS F.15 02/15/2024</span><a href=></a></div><div class="line" style="--delay:3.356093s;"><span class="timestamp">[    3.356093] </span><span class="subsystem">wlan0: </span><span class="text">authenticate github with local address=</span><a href=https://www.github.com/rektstarsceosu>github</a></div>
+    </div>
 
 </body>
 </html>

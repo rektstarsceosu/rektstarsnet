@@ -1,0 +1,6 @@
+time,subsystem,info,external_a,external
+0.0,,"Linux version 7.0.0-1-cachyos (linux-cachyos@cachyos) (clang version 22.1.3, LLD 22.1.3) #1 SMP PREEMPT Wed, 15 Apr 2026 10:02:03 +0000",,
+0.0,"Command line: ","BOOT_IMAGE=/vmlinuz-linux root=/dev/mapper/rektstars rw",,
+0.0,"DMI: ","HP Victus by HP Gaming Laptop/8BD4, BIOS F.15 02/15/2024",,
+3.2,"wlan0: ","authenticate github with local address=","https://www.github.com/rektstarsceosu","github"
+
