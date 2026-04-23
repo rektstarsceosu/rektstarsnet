@@ -1,5 +1,5 @@
 time,subsystem,info,external_a,external
-0.0,,Linux version 6.19.12 (clang 22.1.2) #1 SMP PREEMPT_DYNAMIC",,
+0.0,,Linux version 6.19.12 (clang 22.1.2) #1 SMP PREEMPT_DYNAMIC,,
 0.0,"Command line: ","Command line: BOOT_IMAGE=/boot/vmlinuz-furkanmutlu root=/dev/nvme0n1p2 sys.whoami=1 initcall_debug",,
 0.04,ACPI: ,RSDP 0x000000005AFFE014 000024 (v02 MUTLU),,
 0.15,,calling init_module+0x0/0x40 [whois] @ 2026,,
