@@ -1,7 +1,7 @@
 # Variables
 TARGET = riscv64gc-unknown-linux-gnu
 DEPLOY_DIR = rektstarsnet-release
-REMOTE_HOST = orangepi@192.168.1.10
+REMOTE_HOST ?= orangepi@192.168.1.10
 REMOTE_PATH = ~
 
 # Compilation Flags
@@ -21,15 +21,15 @@ package: build
 	@echo "Packaging files into $(DEPLOY_DIR)..."
 	mkdir -p $(DEPLOY_DIR)
 	cp -r templates/ static/ ./data.csv target/riscv64gc-unknown-linux-gnu/release/rektstarsnet $(DEPLOY_DIR)/
+	echo "" > $(DEPLOY_DIR)/agents.log
 	@echo "Packaging complete."
 
-# 3. Transfer to Orange Pi
-# Note: rsync is preferred for directories to preserve structure efficiently
 deploy: package
 	@echo "Deploying to $(REMOTE_HOST)..."
-	ssh $(REMOTE_HOST) "echo orangepi | sudo -S systemctl stop rektstarsnet"
+	ssh $(REMOTE_HOST) "systemctl --user stop rektstarsnet"
 	scp -r $(DEPLOY_DIR) $(REMOTE_HOST):$(REMOTE_PATH)
-	ssh $(REMOTE_HOST) "echo orangepi | sudo -S systemctl start rektstarsnet"
+	ssh $(REMOTE_HOST) "systemctl --user start rektstarsnet"
+
 
 # Clean up local deployment artifacts
 clean:
