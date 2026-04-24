@@ -1,12 +1,17 @@
-hello!
-this is the source tree of my personal sites
-nothing much but if you want to look at my mess and laugh, go for it!
+hello!  
+this is the source tree of my personal sites  
+nothing much but if you want to look at my mess and laugh, go for it!  
 
-https://rektstars.net
-your user agent will be logged,
+visit: https://rektstars.net  
+your user agent will be logged,  
 this can and will be used against you >:)
 
-# building
+## contact
+found a bug/exploit and don't need a botnet?  
+hit me up at rektstarsceosu@disroot.org   (or you can mine xmr, it gets around 90 h/s)
+
+
+## building
 
 ```
 make # straigtforward
