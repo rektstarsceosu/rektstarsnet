@@ -14,7 +14,7 @@ hit me up at rektstarsceosu@disroot.org   (or you can mine xmr, it gets around 9
 ## building
 
 ```
-make # straigtforward
+make # straigtforward, deploy to remote
 ```
 
 ```
