@@ -1,22 +1,18 @@
-# Variables
+# variables
 TARGET = riscv64gc-unknown-linux-gnu
 DEPLOY_DIR = rektstarsnet-release
 REMOTE_HOST ?= orangepi@192.168.1.10
 REMOTE_PATH = ~
 
-# Compilation Flags
 export RUSTFLAGS = -C target-feature=+zba,+zbb,+zbs
 
 .PHONY: all build package deploy clean
 
-# Default target
 all: build package deploy
 
-# 1. Build the Rust project for RISC-V
 build:
 	cargo build --release --target $(TARGET)
 
-# 2. Prepare the deployment folder
 package: build
 	@echo "Packaging files into $(DEPLOY_DIR)..."
 	mkdir -p $(DEPLOY_DIR)
@@ -31,7 +27,6 @@ deploy: package
 	ssh $(REMOTE_HOST) "systemctl --user start rektstarsnet"
 
 
-# Clean up local deployment artifacts
 clean:
 	rm -rf $(DEPLOY_DIR)
 	cargo clean

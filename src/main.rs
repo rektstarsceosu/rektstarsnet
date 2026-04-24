@@ -1,21 +1,18 @@
 use axum::{
-    response::Html,
-    http::StatusCode,
+    extract::RawQuery,
+    http::{header::{HOST, USER_AGENT}, HeaderMap, StatusCode},
+    response::{Html, IntoResponse},
     routing::get,
     Router,
-    response::IntoResponse,
-    extract::RawQuery,
-    http::{header::HOST,header::USER_AGENT, HeaderMap},
-//    response::Redirect,
 };
-use tower_http::services::{ServeDir};
-use tokio::fs;
-use tokio::fs::File;
-use tokio::fs::OpenOptions;
-use tokio::io::{AsyncBufReadExt, BufReader,AsyncWriteExt};
-use std::sync::Mutex;
+use chrono::{FixedOffset, Utc};
 use rand::RngExt;
-use chrono::Local;
+use std::sync::Mutex;
+use tokio::{
+    fs::{self, File, OpenOptions},
+    io::{AsyncBufReadExt, AsyncWriteExt, BufReader},
+};
+use tower_http::services::ServeDir;
 
 const DELAY_MAX: f32 = 0.1;
 const CHARSPEED: f32 = 0.002;
@@ -27,6 +24,7 @@ async fn main() {
 
     let app = Router::new()
     .route("/", get(handler))
+    .route("/admin", get(pot_handler))
     .route("/error", get(error_handler))
     .nest_service("/static", static_dir)
     .fallback(error_handler);
@@ -75,7 +73,13 @@ async fn handler(headers: HeaderMap) -> impl IntoResponse {
         .and_then(|value| value.to_str().ok())
         .unwrap_or("unknown");
 
-    let date = Local::now().format("%a %b %d %I:%M:%S %p %Z %Y").to_string();
+    let offset = FixedOffset::east_opt(3 * 3600).unwrap();
+
+
+    let date = Utc::now()
+        .with_timezone(&offset)
+        .format("%a %b %d %I:%M:%S %p %Z %Y")
+        .to_string();
 
     let mut log = OpenOptions::new()
         .append(true)
@@ -104,6 +108,39 @@ async fn handler(headers: HeaderMap) -> impl IntoResponse {
         }
     }
 }
+
+
+async fn pot_handler(headers: HeaderMap) -> impl IntoResponse {
+    // handle host
+    let host = headers
+    .get(HOST)
+    .and_then(|value| value.to_str().ok())
+    .unwrap_or("rektstars.net");
+
+    let user_agent = headers
+    .get(USER_AGENT)
+    .and_then(|value| value.to_str().ok())
+    .unwrap_or("unknown");
+
+    let offset = FixedOffset::east_opt(3 * 3600).unwrap();
+
+    // 2. Get current UTC time and apply the offset
+    let date = Utc::now()
+        .with_timezone(&offset)
+        .format("%a %b %d %I:%M:%S %p %Z %Y")
+        .to_string();
+
+    let mut log = OpenOptions::new()
+    .append(true)
+    .create(true)
+    .open("agents.log")
+    .await.unwrap();
+    let line = format!("BOT: at {} agent {} connected to {}\n", date, user_agent, host);
+    _ = log.write_all(line.as_bytes()).await;
+    return Html(fs::read_to_string("templates/admin.html").await.unwrap()).into_response()
+
+}
+
 
 async fn handler_me() -> impl IntoResponse {
     // continue to main site:
