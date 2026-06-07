@@ -8,7 +8,7 @@ this can and will be used against you >:)
 
 ## contact
 found a bug/exploit and don't need a botnet?  
-hit me up at rektstarsceosu@disroot.org   (or you can mine xmr, it gets around 90 h/s)
+hit me up at rektstarsceosu@disroot.org   (or you can mine xmr on host, it gets around 90 h/s)
 
 
 ## building
@@ -18,6 +18,6 @@ make # straigtforward, deploy to remote
 ```
 
 ```
-# get wifi anywhere you go (extremely slow for some reason)
+# get wifi anywhere you go 
 make REMOTE_HOST=orangepi@ssh.rektstars.net
 ```
