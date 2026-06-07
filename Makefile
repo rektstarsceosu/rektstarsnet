@@ -1,7 +1,7 @@
 # variables
 TARGET = riscv64gc-unknown-linux-gnu
 DEPLOY_DIR = rektstarsnet-release
-REMOTE_HOST ?= orangepi@192.168.1.10
+REMOTE_HOST ?= orenji@192.168.1.5
 REMOTE_PATH = ~
 
 export RUSTFLAGS = -C target-feature=+zba,+zbb,+zbs
@@ -22,9 +22,9 @@ package: build
 
 deploy: package
 	@echo "Deploying to $(REMOTE_HOST)..."
-	ssh $(REMOTE_HOST) "systemctl --user stop rektstarsnet"
+	ssh $(REMOTE_HOST) "sudo systemctl stop rektstarsnet"
 	scp -r $(DEPLOY_DIR) $(REMOTE_HOST):$(REMOTE_PATH)
-	ssh $(REMOTE_HOST) "systemctl --user start rektstarsnet"
+	ssh $(REMOTE_HOST) "sudo systemctl start rektstarsnet"
 
 
 clean:

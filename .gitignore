@@ -2,4 +2,5 @@
 /rektstarsnet-release
 /agents.log
 /*.kate-swp
-
+static/*
+!static/*.css

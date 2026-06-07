@@ -103,6 +103,10 @@ async fn handler(headers: HeaderMap) -> impl IntoResponse {
             // Simply await the other handler; it already returns an IntoResponse
             return handler_me().await.into_response()
         }
+        "demo.rektstars.net"|"fridgemate.rektstars.net" => {
+            return Html(fs::read_to_string("templates/fridge.html").await.unwrap()).into_response()
+        }
+
         "rektstars.net"|_ => {
             return Html(fs::read_to_string("templates/main.html").await.unwrap()).into_response()
         }
